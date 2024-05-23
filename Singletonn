@@ -1,0 +1,104 @@
+class Organization:
+    """
+    Шаблон одиночка для хранения и управления свойствами модели: организация.
+    """
+
+    _instance = None
+
+    def __new__(cls, *args, **kwargs):
+        """
+        Метод для создания экземпляра класса.
+        """
+        if cls._instance is None:
+            cls._instance = super().__new__(cls)
+            cls._instance._code = None
+            cls._instance._name = None
+            cls._instance._address = None
+            cls._instance._postal_code = None
+        return cls._instance
+
+    @property
+    def code(self):
+        return self._code
+
+    @code.setter
+    def code(self, value):
+        self._code = value
+
+    @property
+    def name(self):
+        return self._name
+
+    @name.setter
+    def name(self, value):
+        self._name = value
+
+    @property
+    def address(self):
+        return self._address
+
+    @address.setter
+    def address(self, value):
+        self._address = value
+
+    @property
+    def postal_code(self):
+        return self._postal_code
+
+    @postal_code.setter
+    def postal_code(self, value):
+        self._postal_code = value
+
+    def __str__(self):
+        """
+        Представление объекта в виде строки.
+        """
+        return f"Organization(code={self._code}, name={self._name}, address={self._address}, postal_code={self._postal_code})"
+
+
+import unittest
+
+class OrganizationTest(unittest.TestCase):
+    """
+    Тестовый класс для проверки работы шаблона одиночка Organization.
+    """
+
+    def test_singleton(self):
+        """
+        Проверка создания единственного экземпляра.
+        """
+        org1 = Organization()
+        org2 = Organization()
+        self.assertEqual(org1, org2)
+
+    def test_set_and_get_properties(self):
+        """
+        Проверка установки и получения свойств организации.
+        """
+        org = Organization()
+        org.code = "12345"
+        org.name = "ООО \"Тестовая организация\""
+        org.address = "г. Черемхово, ул. Детская, д. 32"
+        org.postal_code = "123456"
+
+        self.assertEqual(org.code, "12345")
+        self.assertEqual(org.name, "ООО \"Тестовая организация\"")
+        self.assertEqual(org.address, "г. Черемхово, ул. Детская, д. 32")
+        self.assertEqual(org.postal_code, "123456")
+
+    def test_str_representation(self):
+        """
+        Проверка строкового представления объекта.
+        """
+        org = Organization()
+        org.code = "12345"
+        org.name = "ООО \"Тестовая организация\""
+        org.address = "г. Черемхово, ул. Детская, д. 32"
+        org.postal_code = "123456"
+
+        expected_string = "Organization(code=12345, name=ООО \"Тестовая организация\", address=г. Черемхово, ул. Детская, д. 32, postal_code=123456)"
+        self.assertEqual(str(org), expected_string)
+
+
+if __name__ == '__main__':
+    unittest.main()
